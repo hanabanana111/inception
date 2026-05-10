@@ -1,1 +1,14 @@
-.env
+# Environment variable files
+srcs/.env
+
+# Secret files (keep only directory placeholder in VCS)
+secrets/*
+!secrets/.gitkeep
+
+# Local test data directory
+data/
+
+# Common OS/editor/runtime junk files
+.DS_Store
+__pycache__/
+*.swp
