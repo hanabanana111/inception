@@ -8,7 +8,7 @@ Project Overview and Design Choices
 
 The infrastructure is built using Docker Compose, where each service runs in a dedicated, custom-built container.
 
-Docker and Sources: Each Docker image is built from the penultimate stable version of Alpine or Debian using custom Dockerfiles. All configuration files are located in the srcs folder.
+Docker and Sources: Each Docker image is built from the penultimate stable version of Debian using custom Dockerfiles. All configuration files are located in the srcs folder.
 
 Virtual Machines vs Docker: While a VM virtualizes the entire hardware, Docker shares the host kernel, providing a lightweight isolation. This project runs Docker inside a VM to ensure a standardized, isolated environment.
 
