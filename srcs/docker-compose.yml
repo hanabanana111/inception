@@ -12,6 +12,33 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     restart: always
+    networks:
+      - inception_network
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - .env
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
+    networks:
+      - inception_network
+    secrets:
+      - db_password
+      - db_root_password
 
 volumes:
   wordpress_data:
+  mariadb_data:
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+
+networks:
+  inception_network:
