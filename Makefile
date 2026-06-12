@@ -1,36 +1,41 @@
 LOGIN = hakobori
 DATA_PATH = /home/$(LOGIN)/data
 COMPOSE_FILE = srcs/docker-compose.yml
+COMPOSE = docker compose -f $(COMPOSE_FILE)
+DATA_DIRS = $(DATA_PATH)/mariadb $(DATA_PATH)/wordpress
 
 .PHONY: all setup stop down re clean fclean
 
 all: setup
 	@echo "[all] Building and starting containers..."
-	docker compose -f $(COMPOSE_FILE) up --build -d
+	@$(COMPOSE) up --build
 
 setup:
-	@echo "[setup] Creating host data directories..."
-	mkdir -p $(DATA_PATH)/mariadb $(DATA_PATH)/wordpress
+	@echo "[setup] Ensuring host data directories exist..."
+	@mkdir -p $(DATA_DIRS)
+
+up:
+	@echo "[up] Building and starting containers..."
+	@$(COMPOSE) up
 
 stop:
 	@echo "[stop] Stopping containers..."
-	docker compose -f $(COMPOSE_FILE) stop
+	@$(COMPOSE) stop
 
 down:
 	@echo "[down] Bringing down containers..."
-	docker compose -f $(COMPOSE_FILE) down
+	@$(COMPOSE) down --remove-orphans
 
 re:
 	@echo "[re] Rebuilding environment from scratch..."
 	$(MAKE) fclean
 	$(MAKE) all
 
-clean: down
-	@echo "[clean] Removing unused Docker images and resources..."
-	docker system prune -a
+clean:
+	@echo "[clean] Removing containers and project images..."
+	@$(COMPOSE) down --rmi all --remove-orphans
 
 fclean: clean
-	@echo "[fclean] Removing persistent data directory..."
-	sudo rm -rf $(DATA_PATH)
-	@echo "[fclean] Removing all Docker volumes..."
-	docker volume rm $$(docker volume ls -q)
+	@echo "[fclean] Removing project volumes and host data directories..."
+	@$(COMPOSE) down -v --rmi all --remove-orphans
+	@rm -rf "$(DATA_PATH)/mariadb" "$(DATA_PATH)/wordpress"

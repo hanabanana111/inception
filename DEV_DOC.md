@@ -120,3 +120,18 @@ Recommended checks:
 ```
 
 All east-west traffic remains inside the `inception` bridge network; only NGINX is north-south exposed.
+
+
+## 7. Change WP port
+
+```text
+[docker-compose.yml]
+
+    ports:
+      - "443:443"
+
+    ports:
+      - "8080:443"
+
+Note:https://hakobori.42.fr:8080/
+```

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nginx:
     build:
@@ -50,7 +48,17 @@ services:
 
 volumes:
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/hakobori/data/wordpress
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/hakobori/data/mariadb
 
 secrets:
   db_password:
@@ -64,3 +72,5 @@ secrets:
 
 networks:
   inception_network:
+    driver: bridge
+    internal: true
