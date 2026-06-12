@@ -73,4 +73,3 @@ secrets:
 networks:
   inception_network:
     driver: bridge
-    internal: true
