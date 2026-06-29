@@ -3,6 +3,7 @@ services:
     build:
       context: ./requirements/nginx
     container_name: nginx
+    image: nginx:inception
     env_file:
       - .env
     ports:
@@ -17,6 +18,7 @@ services:
     build:
       context: ./requirements/wordpress
     container_name: wordpress
+    image: wordpress:inception
     env_file:
       - .env
     depends_on:
@@ -35,6 +37,7 @@ services:
     build:
       context: ./requirements/mariadb
     container_name: mariadb
+    image: mariadb:inception
     env_file:
       - .env
     volumes:
